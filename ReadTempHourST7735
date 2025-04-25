@@ -1,0 +1,52 @@
+#include <Adafruit_GFX.h>
+#include <Adafruit_ST7735.h>
+#include <SPI.h>
+  // Ecran Led 160 x 128
+#define TFT_CS   10  
+#define TFT_DC    9  
+#define TFT_RST   8  
+
+Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
+
+void setup() {
+  Serial.begin(9600);
+  tft.initR(INITR_BLACKTAB);
+  tft.fillScreen(ST77XX_BLACK);
+}
+
+void loop() {
+  int yAxis = 110;
+  float sensorVal = analogRead(A0);
+  float volts = (sensorVal * 5.0 ) / 1024.0;
+  float deg = (1000 * volts - 500)/10;
+  tft.fillRect(0, yAxis, 128, 10, ST77XX_BLACK);
+  tft.fillRect(0, 30, 128, 2, ST77XX_CYAN);
+  tft.fillRect(0, 135, 128, 2, ST77XX_CYAN);
+  tft.setCursor(10, 40);
+  tft.setTextSize(2);
+  tft.setTextColor(ST77XX_GREEN);
+  tft.println("Heure:");
+  tft.setCursor(10, 60);
+  tft.setTextSize(1);
+  tft.setTextColor(ST77XX_ORANGE);
+  tft.println("HEURE.EXE");
+  tft.setCursor(10, 90);
+  tft.setTextSize(2);
+  tft.setTextColor(ST77XX_CYAN);
+  tft.println("Temp:");
+  tft.setCursor(10, yAxis);
+  tft.setTextSize(1);
+  tft.setTextColor(ST77XX_MAGENTA);
+  tft.println(deg);
+  tft.setCursor(45, yAxis);
+  tft.println("C");
+  tft.setTextSize(2);
+  tft.setCursor(15, 10);
+  tft.setTextColor(ST77XX_MAGENTA);
+  tft.println("//INFO//");
+  tft.setTextSize(1);
+  tft.setCursor(5, 145);
+  tft.setTextColor(ST77XX_MAGENTA);
+  tft.println("//have a good day//");
+  delay(1000);
+}
